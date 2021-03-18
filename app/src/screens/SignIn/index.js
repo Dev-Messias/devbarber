@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text} from 'react-native'
+import { useNavigation } from '@react-navigation/native';
 import {
    Container, 
    InputArea,
@@ -10,6 +10,8 @@ import {
    SignMessageButtonTextBold 
   } from './styles';
 
+  import Api from '../../Api';
+
   import SignInput from '../../components/SignInput';
 
 import BarberLogo from '../../assets/svg/barber.svg';
@@ -18,8 +20,35 @@ import LockIcon from '../../assets/svg/lock.svg';
 
 export default () => {
 
+  const navigation = useNavigation();
+
   const [emailField, setEmailField] = useState(''); 
   const [passwordField, setPasswordField] = useState('');
+
+  //Redirecionando para pagina de cadastro, sem permitir que ele retorne.
+  const handleMessageButtonClick = () => {
+    navigation.reset({
+      routes: [{name: 'SignUp'}]
+    });
+  }
+
+  const handleSignClick = async () => {
+    if(emailField != '' && passwordField != ''){
+       /* let json = await Api.signIn(emailField, passwordField);
+
+
+        if(json.token){
+            alert("Deu Certo!");
+        }else{
+          alert('E-mail e/ou senha errados!');
+        }*/
+        navigation.reset({
+          routes: [{name: 'MainTab'}]
+        });
+    }else{
+      alert("Preencha os Campos!")
+    }
+  }
 
   return(
     <Container>
@@ -41,12 +70,12 @@ export default () => {
           password={true}
         />
 
-        <CustomButton>
+        <CustomButton onPress={handleSignClick} >
             <CustomButtonText>LOGIN</CustomButtonText>
         </CustomButton>
       </InputArea>
 
-      <SignMessageButton>
+      <SignMessageButton onPress={handleMessageButtonClick} >
           <SignMessageButtonText>Ainda não possui uma conta? </SignMessageButtonText>
           <SignMessageButtonTextBold>Cadastre-se</SignMessageButtonTextBold>
         </SignMessageButton>
