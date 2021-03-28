@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
 
-import DIcon from '../assets/df.jpg';
+import DIcon from '../assets/avatarBarbeiro.jpg';
 
 import Stars from '../components/Stars';
 
@@ -41,13 +42,26 @@ const SeeProfileButtonText = styled.Text`
 
 
 export default ({data}) => {
+
+  const navigation = useNavigation();
+
+  const handleClick = () => {
+      navigation.navigate('Barber', {
+        id: 2,
+        name: 'Nome Barbeiro',
+        stars: starsNota
+      });
+  }
+
+  const starsNota = 5.1;
+
   return(
-    <Area>
+    <Area onPress={handleClick}>
       <Avatar source={DIcon} />
       <InforArea>
         <UserName>Barbearia</UserName>
         
-        <Stars  stars={4.1} showNumber={true} />
+        <Stars  stars={starsNota} showNumber={true} />
 
         <SeeProfileButton>
           <SeeProfileButtonText>Ver Perfil</SeeProfileButtonText>
